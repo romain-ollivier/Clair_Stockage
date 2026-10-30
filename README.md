@@ -1,99 +1,89 @@
 # Clair Stockage
 
-Explorateur visuel de stockage local pour Windows — **version 0.6.0**.
+A visual local storage explorer for Windows — **version 0.6.0**.
 
-**Comprendre ce qui occupe l’espace sur son PC, sans ouvrir ses fichiers ni rien supprimer.**
+**Understand what takes up space on your PC without opening file contents or deleting anything.**
 
-Clair Stockage est un explorateur de stockage local pour Windows. Il parcourt les dossiers choisis, calcule leur taille et présente les résultats sous forme de liste ou de carte visuelle. Son objectif : aider à comprendre où se trouve l’espace utilisé, tout en distinguant les mesures réelles des estimations et des interprétations.
+Clair Stockage scans selected folders, calculates their sizes, and presents the results as a list or a visual map. It helps you locate used storage while keeping measured data, partial results, and AI interpretations clearly distinguishable.
 
-## Ce que l’application apporte
+## Features
 
-- **Voir le stockage par dossier** : comparer les tailles, les extensions et les fichiers, puis naviguer dans l’arborescence.
-- **Repérer les éléments volumineux** : la liste et la carte colorée rendent les gros dossiers plus faciles à identifier.
-- **Garder le contrôle** : aucun scan ne démarre à l’ouverture. Choisissez un disque ou un dossier, suivez le parcours et arrêtez-le si nécessaire.
-- **Comprendre la couverture** : les erreurs d’accès et les scans interrompus sont signalés ; les tailles partielles ne sont pas présentées comme des mesures complètes.
-- **Obtenir une explication facultative** : un bilan local peut interpréter les métadonnées et expliquer les indices observés, sans remplacer les mesures.
+- **Explore storage by folder:** compare sizes, extensions, and files, then navigate through the directory tree.
+- **Find large items:** use the sortable list and color-coded map to identify large folders.
+- **Control each scan:** no scan starts automatically. Choose a drive or folder, follow progress, and stop the scan when needed.
+- **Check scan coverage:** access errors and interrupted scans are reported; partial sizes are identified as incomplete.
+- **Request an optional explanation:** a local AI report interprets metadata and technical clues alongside the measured results.
 
-Clair Stockage est un outil d’exploration et de compréhension, **pas un nettoyeur** : il ne supprime, ne déplace et ne modifie aucun fichier.
+Clair Stockage is a read-only exploration tool: it does not delete, move, or modify the files being scanned.
 
-## Essayer la démonstration
+## Installation and launch
 
-Pour découvrir l’interface sans analyser le disque :
-
-Depuis la racine du dépôt, lancez :
-
-```powershell
-py -3.12 -m clair_storage --demo
-```
-
-Cette démonstration utilise une arborescence entièrement fictive ; elle n’analyse aucun disque.
-
-## Installation et lancement
-
-### Prérequis
+### Requirements
 
 - Windows
-- Python 3.11 ou 3.12 avec Tcl/Tk (inclus dans l’installation Windows standard de Python)
-- Aucun paquet Python supplémentaire n’est nécessaire
+- Python 3.11 or 3.12 with Tcl/Tk, included in the standard Windows Python installation
+- No additional Python packages required
 
-### Démarrer l’application
+### Start the application
 
-Téléchargez ou clonez le dépôt, puis lancez `Launch-Admin.cmd` et confirmez la demande UAC de Windows. L’application s’ouvre sans démarrer de scan ; choisissez ensuite un disque, votre dossier personnel ou **Choisir un dossier**. Ce lancement demande les droits administrateur afin d’élargir l’accès aux dossiers protégés ; les accès refusés restent possibles.
+Download or clone the repository, then run `Launch-Admin.cmd` and accept the Windows UAC prompt. The application opens without starting a scan. Select a drive, your home folder (**Dossier personnel**), or **Choisir un dossier** to begin.
 
-Vous pouvez également la lancer depuis la racine du dépôt :
+The launcher requests administrator privileges to improve access to protected folders. Some folders may still remain inaccessible.
+
+You can also start the application from the repository root in PowerShell without elevation:
 
 ```powershell
 py -3.12 -m clair_storage
 ```
 
-Pour exécuter manuellement l’application sans élévation depuis PowerShell, utilisez la commande ci-dessus. L’accès à certains dossiers sera alors limité par les permissions de votre compte. Dans les deux cas, aucune permission ni propriété de fichier n’est modifiée.
+In this case, access depends on your account permissions. Neither launch method changes file permissions or ownership.
 
-## Explorer son stockage
+The application interface is currently in French.
 
-- **Liste** : trier les éléments par nom ou par taille, les rechercher dans le dossier courant et naviguer par double-clic.
-- **Carte** : visualiser les éléments proportionnellement à leur taille ; les couleurs indiquent une tranche de taille, pas un niveau de danger.
-- **Accès et couverture** : consulter les erreurs, les éléments ignorés et savoir si les résultats sont partiels.
-- **Arrêter le scan** : demander l’arrêt et conserver les résultats disponibles comme mesures partielles.
+## Explore your storage
 
-Le parcours complet n’a pas de limite automatique de durée ou de nombre d’éléments ; sur un grand volume, il peut donc prendre du temps et utiliser de la mémoire.
+- **List (Liste):** sort items by name or size, search within the current folder, and double-click folders to navigate.
+- **Map (Carte):** view items in proportion to their size. Colors indicate size ranges.
+- **Access and coverage (Accès et couverture):** inspect errors, skipped items, and incomplete results.
+- **Stop scan (Arrêter le scan):** stop scanning and retain the available results as partial measurements.
 
-## Bilan IA local (facultatif)
+Full scans have no automatic time or item limit. Scanning a large volume may take time and consume significant memory.
 
-Le bilan mesuré fonctionne sans IA. Pour demander une interprétation, installez [Ollama](https://ollama.com/) séparément et téléchargez un modèle local, par exemple :
+## Optional local AI report
+
+The measured report works without AI. To request an interpretation, install [Ollama](https://ollama.com/) separately and download a local model, for example:
 
 ```powershell
 ollama pull qwen3:8b
 ```
 
-Ouvrez **Bilan IA**, testez la connexion à Ollama, choisissez un modèle disponible puis lancez **Analyser ce dossier**. L’application utilise une instance Ollama locale ; elle ne télécharge pas de logiciel ou de modèle à votre place.
+Open **Bilan IA**, check the Ollama connection with **Tester Ollama**, select an available model, and click **Analyser ce dossier**. The application uses a local Ollama instance and does not install software or download models on your behalf.
 
-Le bilan IA :
+The AI report:
 
-- s’appuie sur des métadonnées, des noms et des indices techniques, jamais sur le contenu des fichiers ;
-- examine un échantillon limité de dossiers, pas l’ensemble de l’arborescence ;
-- distingue les constats mesurés des interprétations générées, qui restent à vérifier ;
-- n’exécute aucune action sur les fichiers.
+- Uses metadata, names, and technical clues without reading file contents.
+- Examines a limited sample of folders rather than the entire directory tree.
+- Separates measured findings from generated interpretations, which require review.
+- Takes no action on files.
 
-L’option d’inclusion des noms de fichiers et marqueurs techniques est activée par défaut. La désactiver retire les noms de fichiers individuels et la recherche de marqueurs, mais conserve les noms de dossiers. **Voir les données envoyées** permet d’inspecter les métadonnées préparées pour le bilan ; **Exporter le bilan** enregistre un fichier JSON qui peut contenir ces métadonnées et les notes intermédiaires de l’IA.
+The option to include file names and technical markers is enabled by default. Disabling it excludes individual file names and marker discovery, while retaining folder names.
 
-## Confidentialité et limites des mesures
+Use **Voir les données envoyées** to inspect the metadata prepared for the report. **Exporter le bilan** saves a JSON file that may include this metadata and intermediate AI notes.
 
-- Le scanner lit les métadonnées nécessaires au calcul (noms, tailles et informations de dossiers) ; il n’ouvre pas le contenu des fichiers.
-- Les noms de fichiers individuels et les marqueurs techniques ne sont transmis à Ollama local que si l’option correspondante est activée et si vous demandez un bilan IA. Les noms de dossiers et les autres métadonnées utiles au bilan restent inclus.
-- Les tailles affichées sont des **tailles logiques** : elles peuvent différer de l’espace réellement occupé sur le disque. Les liens accessibles sont suivis ; une cible externe peut contribuer au total logique, et les liens physiques de fichiers ne sont pas dédupliqués.
-- Les dossiers inaccessibles, les erreurs système et l’arrêt d’un scan peuvent rendre les résultats partiels. Lancer l’application en administrateur peut élargir l’accès, sans garantir l’exhaustivité.
-- Les résultats représentent l’état observé pendant le scan ; les fichiers peuvent changer entre-temps.
+## Privacy and measurement limitations
+
+- The scanner reads metadata needed for measurement, including names, sizes, and directory information. It does not open file contents.
+- Individual file names and technical markers are sent to local Ollama only when the corresponding option is enabled and you request an AI report. Folder names and other relevant report metadata remain included.
+- Displayed sizes are **logical sizes** and may differ from physical disk usage. Accessible links are followed, external targets may contribute to logical totals, and file hard links are not deduplicated.
+- Inaccessible folders, system errors, and interrupted scans can produce partial results. Running as administrator may improve access but does not guarantee complete coverage.
+- Results reflect observations made during the scan. Files may change while scanning is in progress.
 
 ## Tests
 
-Les tests automatisés utilisent la bibliothèque standard de Python :
+The automated tests use the Python standard library:
 
 ```powershell
 py -3.12 -m unittest discover -s tests -v
 ```
 
-Le détail de leur couverture et les vérifications manuelles restant à effectuer sont indiqués dans [docs/VALIDATION.md](./docs/VALIDATION.md).
-
-## Licence
-
-Aucun fichier de licence n’est inclus pour le moment. La publication d’un dépôt public sur GitHub ne place pas automatiquement son code sous une licence open source : ajoutez une licence avant d’autoriser sa réutilisation.
+See [docs/VALIDATION.md](./docs/VALIDATION.md) for test coverage and outstanding manual checks. That document is currently in French.
